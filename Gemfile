@@ -12,7 +12,7 @@ gem 'pg'
 
 # Use unicorn as the app server
 # Change to puma if you want to use the Puma Server
-gem 'unicorn'
+gem 'puma'
 
 # Use fontawesome for common icons
 gem 'font-awesome-rails'
