@@ -3,7 +3,9 @@ Threedog::Application.routes.draw do
 
 
   get :stream_listen, to: 'stream#stream_listen'
-  post :broadcast, to: 'stream#broadcast'
+  post :stream_broadcast, to: 'stream#stream_broadcast'
+  get :broadcast, to: 'stream#broadcast'
+  get :listen, to: 'stream#listen'
 
   require 'sidekiq/web'
   mount Sidekiq::Web, at: 'sidekiq'

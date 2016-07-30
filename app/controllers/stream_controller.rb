@@ -10,8 +10,7 @@ class StreamController < ApplicationController
     redis = Redis.new
     redis.psubscribe("#{params[:id]}:*") do |on|
       on.pmessage do |pattern, event, data|
-        response.stream.write("Event: #{event}\n")
-        response.stream.write("Data: #{data}\n\n")
+        response.stream.write(data)
       end
     end
   rescue IOError
@@ -21,10 +20,17 @@ class StreamController < ApplicationController
     response.stream.close
   end
 
-  def broadcast
+  def stream_broadcast
+
     redis = Redis.new
-    redis.publish("#{params[:id]}:#{params[:packet]}", params[:message])
+    redis.publish("#{params[:id]}:#{params[:packet]}", params[:message].tempfile.read)
     redis.quit
     head :ok
+  end
+
+  def broadcast
+  end
+
+  def listen
   end
 end
