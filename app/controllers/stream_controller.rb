@@ -1,5 +1,6 @@
 class StreamController < ApplicationController
   include ActionController::Live
+  protect_from_forgery with: :null_session
 
   def stream_listen
     return head 404 unless params[:id]
@@ -22,6 +23,8 @@ class StreamController < ApplicationController
 
   def broadcast
     redis = Redis.new
-    redis.publish("#{params[:id]}:#{params[:packet_number]}", 'Test')
+    redis.publish("#{params[:id]}:#{params[:packet]}", params[:message])
+    redis.quit
+    head :ok
   end
 end
